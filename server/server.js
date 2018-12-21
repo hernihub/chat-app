@@ -17,7 +17,7 @@ io.on('connection', (socket) => {
     socket.emit('newMessage', generateMessage('admin', 'Welcome to the chat app'));
     socket.broadcast.emit('newMessage', generateMessage('admin', 'New user joined'));
     // socket.emit('event', {}); // Emits an event to a single connection
-    socket.on('createMessage', (message) => {
+    socket.on('createMessage', (message, callback) => {
         console.log('create message', message);
 
         // Emits an event to every single connection
@@ -27,6 +27,7 @@ io.on('connection', (socket) => {
         //     text: message.text,
         //     createdAt: new Date().getTime()
         // });
+        callback('this is the data inside our callback');
     });
     socket.on('disconnect', () => {
         console.log('user was disconnected');
