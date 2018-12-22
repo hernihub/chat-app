@@ -27,9 +27,9 @@ io.on('connection', (socket) => {
         //     text: message.text,
         //     createdAt: new Date().getTime()
         // });
-        callback('this is the data inside our callback');
+        callback();
     });
-    
+
     socket.on('createLocationMessage', (coords) => {
         io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
     });
