@@ -14,8 +14,8 @@ app.use(express.static(publicPath));
 
 io.on('connection', (socket) => {
     console.log('new user connected');
-    socket.emit('newMessage', generateMessage('admin', 'Welcome to the chat app'));
-    socket.broadcast.emit('newMessage', generateMessage('admin', 'New user joined'));
+    socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
+    socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'));
     // socket.emit('event', {}); // Emits an event to a single connection
     socket.on('createMessage', (message, callback) => {
         console.log('create message', message);
