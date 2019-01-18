@@ -37,10 +37,13 @@ io.on('connection', (socket) => {
     });
 
     socket.on('createMessage', (message, callback) => {
-        console.log('create message', message);
+        var user = users.getUser(socket.id);
 
-        // Emits an event to every single connection
-        io.emit('newMessage', generateMessage(message.from, message.text)); 
+        if (user && isRealString(message.text)) {
+            // Emits an event to every single connection
+            io.to(user.room).emit('newMessage', generateMessage(user.name, message.text));
+        }
+
         // socket.broadcast.emit('newMessage', { // Emits the event to everyone but this
         //     from: message.from,
         //     text: message.text,
@@ -50,7 +53,11 @@ io.on('connection', (socket) => {
     });
 
     socket.on('createLocationMessage', (coords) => {
-        io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
+        var user = users.getUser(socket.id);
+
+        if (user) {
+            io.to(user.room).emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude));
+        }
     });
 
     socket.on('disconnect', () => {
